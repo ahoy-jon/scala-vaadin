@@ -1,18 +1,23 @@
+
  import sbt._
  import Keys._
  import sbt.Package._
  import java.util.jar.Attributes.Name._
 
 
+
 object ScalaVaadinBuild extends Build {
-    val scala_vaadin = Project(
+    
+    override def projects = Seq(root, core,demo)
+    
+    lazy val root = Project(
      id                  = "scala-vaadin",
      base                =  file("."),
      settings            = standardSettings,
      aggregate           = Seq(core, demo)
    )
 
-    val core = Project(
+    lazy val core = Project(
      id       = "core",
      base     = file("core"),
      settings = standardSettings ++ Seq(
@@ -20,11 +25,11 @@ object ScalaVaadinBuild extends Build {
     )
 
    
-    val demo = Project(
+    lazy val demo = Project(
      id           = "demo",
      base         = file("demo"),
      dependencies = Seq(core),
-     settings     = standardSettings ++ Seq(libraryDependencies += Dependency.jetty) ++ WebPlugin.webSettings
+     settings     =   standardSettings ++ Seq(libraryDependencies ++= Seq(Dependency.jetty)) ++ WebPlugin.webSettings
     )
 
 
