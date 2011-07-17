@@ -4,13 +4,17 @@ import com.vaadin.{Application => VApplication}
 import scala.collection.mutable.ListBuffer
 
 /** The `App` trait can be used to quickly turn objects 
- *  into Vaadin Application, much like the original Scala App trait.
+ *  into Vaadin Application, much like the original Scala App trait [1].
  *  {{{
- *   object MyApp extends scala.vaadin.App {
- *     setMainWindow{ new Window {addComponent(new Label("Hello World !")) }}
+ *   class MyApp extends scala.vaadin.App {
+ *     mainWindow = new Window {add(new Label("Hello World !"))}
  *   }  
  *
  *  }}}
+ *
+ *
+ *  - [1] Original Scala App Trait is better used with objects, but this trait has
+ * to be extended by a class.
  */
 trait App extends VApplication with DelayedInit  {
     private val initCode = new ListBuffer[() => Unit]

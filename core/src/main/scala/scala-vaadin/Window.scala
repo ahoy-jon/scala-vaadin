@@ -5,10 +5,6 @@ import com.vaadin.ui.{Window => VWindow}
 
 object Window {
   
-  def apply() = new Window(None,None)
-  def apply(caption: String, content: ComponentContainer) = 
-    new Window(Option(caption), Option(content))
-  def apply(caption: String) = new Window(Option(caption), None)
 }
 
 
@@ -18,6 +14,13 @@ class Window(caption: Option[String],content: Option[ComponentContainer])
   override lazy val peer = 
     new VWindow(caption getOrElse "", content map {_.peer} getOrElse null)
 
+  def this() = 
+    this(None, None)
+  def this(caption: String) = 
+    this(Option(caption), None)
+  def this(caption: String, content: ComponentContainer) = 
+    this(Option(caption), Option(content))
+  
   def addComponent(c : Component) {
     peer.addComponent(c.peer)
   }
