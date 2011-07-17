@@ -33,4 +33,13 @@ trait App extends VApplication with DelayedInit  {
     override def init() : Unit = {
         for (proc <- initCode) proc()
     }
+    
+    def mainWindow : MainWindow = { 
+      Option(Component.cachedWrapper[MainWindow](getMainWindow)) getOrElse {
+        val app=this
+        new MainWindow {override lazy val peer = app getMainWindow}
+      }
+    }
+    
+    def mainWindow_= (window: Window):Unit = {setMainWindow(window.peer)}
 }

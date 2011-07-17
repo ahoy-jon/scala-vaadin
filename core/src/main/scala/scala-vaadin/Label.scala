@@ -13,18 +13,26 @@ object Label {
     val Raw = ContentMode(CONTENT_RAW)
     
     //def values() = Set(Text,Preformated,XHTML,XML,Raw)
+    
 }
 
 
 import com.vaadin.ui.{Label => VLabel}
 
-class Label(contentSource:String, contentMode: Label.ContentMode ) extends Component {
-    override lazy val peer = new VLabel(contentSource, contentMode.oldIndex)
+class Label(contentSource: Option[String], contentMode: Option[Label.ContentMode] ) extends Component {
+  override lazy val peer: VLabel = 
+    new VLabel(contentSource getOrElse "", (contentMode getOrElse Label.Text).oldIndex)
     
-    def this() = this("", Label.Text)
-    def this(contentSource:String) = this(contentSource, Label.Text)
-    
-    def readOnly_(isReadOnly: Boolean) = peer.setReadOnly(isReadOnly)
-    def readOnly : Boolean = peer.isReadOnly
+  
+  def this() = this(None,None)
+  def this(text: String) = this(Option(text),None)
+  def this(text: String, contentMode: Label.ContentMode) = this(Option(text),Option(contentMode))
+  
+  def text: String = peer.getValue match {case s:String => s ; case _ => ""}
+  def text_= (s: String): Unit = peer.setValue(s)
+  
+  def readOnly_= (isReadOnly: Boolean):Unit = peer.setReadOnly(isReadOnly)
+  def isReadOnly: Boolean = peer.isReadOnly
+  
 }
  
