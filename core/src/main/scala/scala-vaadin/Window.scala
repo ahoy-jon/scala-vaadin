@@ -9,7 +9,7 @@ object Window {
 
 
 class Window(caption: Option[String],content: Option[ComponentContainer]) 
-  extends Component {
+  extends Panel {
 
   override lazy val peer = 
     new VWindow(caption getOrElse "", content map {_.peer} getOrElse null)
@@ -21,15 +21,7 @@ class Window(caption: Option[String],content: Option[ComponentContainer])
   def this(caption: String, content: ComponentContainer) = 
     this(Option(caption), Option(content))
   
-  def addComponent(c : Component) {
-    peer.addComponent(c.peer)
-  }
   
-  def add[T](t : T) {
-    t match {
-      case t:Component => addComponent(t)
-    }
-  }
   
   /**
     * Gets the full URL of the window. The returned URL is window specific and
@@ -96,6 +88,12 @@ class Window(caption: Option[String],content: Option[ComponentContainer])
     *            determines if the sub window can be closed by the user.
     */
   def closable_= (isClosable: Boolean): Unit = peer setClosable(isClosable)
+  
+  
+  
+  
+  
+  
   
   
   

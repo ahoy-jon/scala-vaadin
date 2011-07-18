@@ -29,7 +29,7 @@ object Component {
      * its interaction with type inference. Better err on the side of caution 
      * and explicitly specify `C`.  
      */
-    private[vaadin] def cachedWrapper[C>:Null<:Component](c: com.vaadin.ui.Component): C = {
+    private[vaadin] def cachedWrapper[C>:Null<:Component](c: com.vaadin.ui.AbstractComponent): C = {
       val w = c match {
         //case c: com.vaadin.ui.Component => c.getClientProperty(ClientKey)
         case _ => wrapperCache.get(c)
@@ -44,15 +44,33 @@ object Component {
      * `wrap` methods in companion objects of subclasses of UIElement have the 
      * same behavior, except that they return more specific wrappers.
      */
-    def wrap(c: com.vaadin.ui.Component): Component = {
+    def wrap(c: com.vaadin.ui.AbstractComponent): Component = {
       val w = cachedWrapper[Component](c)
       if (w != null) w 
       else new Component { def peer = c }
     }
+    
+  
 }
 
 
 trait Component extends Proxy /* with LazyPublisher */ {
-  def peer : com.vaadin.ui.Component
+  def peer : com.vaadin.ui.AbstractComponent
   def self = peer
+  
+  def sizeFull(): Unit = peer.setSizeFull
+  
+  def wrap[T] : Option[T] = {
+     val value = this.peer match {
+        case v:com.vaadin.ui.VerticalLayout => VerticalLayout.wrap(v)
+        case _ => None
+     } 
+     value match {
+       case t:T => Option[T](t)
+       case _ => None
+     }
+  }
+    
+    
+    
 }

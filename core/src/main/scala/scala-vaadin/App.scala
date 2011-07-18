@@ -17,6 +17,7 @@ import scala.collection.mutable.ListBuffer
  * to be extended by a class.
  */
 trait App extends VApplication with DelayedInit  {
+    
     private val initCode = new ListBuffer[() => Unit]
 
     /** The init hook. This saves all initialization code for execution within `init`.
@@ -38,6 +39,8 @@ trait App extends VApplication with DelayedInit  {
         for (proc <- initCode) proc()
     }
     
+    def peer = this
+    
     def mainWindow : MainWindow = { 
       Option(Component.cachedWrapper[MainWindow](getMainWindow)) getOrElse {
         val app=this
@@ -46,4 +49,8 @@ trait App extends VApplication with DelayedInit  {
     }
     
     def mainWindow_= (window: Window):Unit = {setMainWindow(window.peer)}
+    
+    def theme: Option[String] = Option(peer.getTheme())
+    def theme_= (t : Option[String]): Unit = peer.setTheme(t getOrElse null)
+    def theme_= (t: String) : Unit = peer.setTheme(t)
 }
