@@ -54,9 +54,7 @@ object Component {
 }
 
 
-trait Component extends Proxy /* with LazyPublisher */ {
-  def peer : com.vaadin.ui.AbstractComponent
-  def self = peer
+trait Component extends VaadinProxy[com.vaadin.ui.AbstractComponent]{
   
   def sizeFull(): Unit = peer.setSizeFull
   

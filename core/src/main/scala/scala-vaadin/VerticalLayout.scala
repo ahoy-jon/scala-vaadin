@@ -12,8 +12,8 @@ object VerticalLayout {
 }
 
 
-class VerticalLayout extends  ComponentContainer with Layout {
-  override lazy val peer: VLayout = new VLayout()
+class VerticalLayout extends Layout with VaadinProxy[VLayout] {
+  override lazy val peer = new VLayout()
   
   
   

@@ -19,8 +19,9 @@ object Label {
 
 import com.vaadin.ui.{Label => VLabel}
 
-class Label(contentSource: Option[String], contentMode: Option[Label.ContentMode] ) extends Component {
-  override lazy val peer: VLabel = 
+class Label(contentSource: Option[String], contentMode: Option[Label.ContentMode] ) extends Component 
+with VaadinProxy[VLabel] {
+  override lazy val peer = 
     new VLabel(contentSource getOrElse "", (contentMode getOrElse Label.Text).oldIndex)
     
   

@@ -9,7 +9,7 @@ object Window {
 
 
 class Window(caption: Option[String],content: Option[ComponentContainer]) 
-  extends Panel {
+  extends Panel with VaadinProxy[VWindow] {
 
   override lazy val peer = 
     new VWindow(caption getOrElse "", content map {_.peer} getOrElse null)
@@ -33,7 +33,7 @@ class Window(caption: Option[String],content: Option[ComponentContainer])
     * @return the URL of the window or null if the window is not attached to an
     *         application
     */
-  def url = peer.getURL()
+  final def url = peer.getURL()
   
   /**
    * <b>Application window only</b>. Gets the theme for this window.
@@ -50,7 +50,7 @@ class Window(caption: Option[String],content: Option[ComponentContainer])
    * 
    * @return the name of the theme used for the window
    */
-  def theme: Option[String] = Option(peer.getTheme())
+  final def theme: Option[String] = Option(peer.getTheme())
   
   
   
@@ -70,7 +70,7 @@ class Window(caption: Option[String],content: Option[ComponentContainer])
     * 
     * @return true if the sub window can be closed by the user.
     */
-  def isClosable : Boolean = peer isClosable
+  final def isClosable : Boolean = peer isClosable
   
   /**
     * Sets the closable status for the sub window. If a sub window is closable
@@ -87,7 +87,7 @@ class Window(caption: Option[String],content: Option[ComponentContainer])
     * @param closable
     *            determines if the sub window can be closed by the user.
     */
-  def closable_= (isClosable: Boolean): Unit = peer setClosable(isClosable)
+  final def closable_= (isClosable: Boolean): Unit = peer setClosable(isClosable)
   
   
   
@@ -103,7 +103,7 @@ class Window(caption: Option[String],content: Option[ComponentContainer])
 
 class MainWindow extends Window(None,None) {
   
-  def name = peer.getName()
+  final def name = peer.getName()
   
   /**
    * Sets the name of the theme to use for
@@ -113,7 +113,7 @@ class MainWindow extends Window(None,None) {
    *        the name of the new theme for this window or None to use the
    *        application theme.
    */
-  def theme_=(theme: Option[String]): Unit = {peer.setTheme(theme getOrElse null)}
+  final def theme_=(theme: Option[String]): Unit = {peer.setTheme(theme getOrElse null)}
   
 }
 

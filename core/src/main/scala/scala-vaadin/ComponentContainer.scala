@@ -18,14 +18,13 @@ object ComponentContainer {
   }
 }
 
-trait ComponentContainer extends Component {
-    override def peer: VComponentContainer
+trait ComponentContainer extends Component with VaadinProxy[VComponentContainer] {
     
-    def addComponent(c : Component) {
+    final def addComponent(c : Component) {
       peer.addComponent(c.peer)
     }
 
-    def add[T](t : T) {
+    final def add[T](t : T) {
       t match {
         case t:Component => addComponent(t)
       }
