@@ -18,7 +18,7 @@ object ComponentContainer {
   }
 }
 
-trait ComponentContainer extends Component with VaadinProxy[VComponentContainer] {
+trait ComponentContainer extends Component with PeerProxy[VComponentContainer] {
     
     final def addComponent(c : Component) {
       peer.addComponent(c.peer)

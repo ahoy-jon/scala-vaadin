@@ -21,7 +21,7 @@ object ScalaVaadinBuild extends Build {
      id       = "core",
      base     = file("core"),
      settings = standardSettings ++ Seq(
-            libraryDependencies ++= Seq(Dependency.vaadin))
+            libraryDependencies ++= Seq(Dependency.vaadin, Dependency.scalatest))
     )
 
    
@@ -35,6 +35,7 @@ object ScalaVaadinBuild extends Build {
 
 object Dependency {
    val vaadin = "com.vaadin" % "vaadin" % "6.6.0"
+   val scalatest = "org.scalatest" % "scalatest_2.9.0" % "1.6.1" % "test"
    val jetty  = "org.mortbay.jetty" % "jetty" % "6.1.22" % "jetty"
 }
 

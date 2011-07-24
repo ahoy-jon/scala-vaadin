@@ -12,7 +12,7 @@ object VerticalLayout {
 }
 
 
-class VerticalLayout extends Layout with VaadinProxy[VLayout] {
+class VerticalLayout extends Layout with PeerProxy[VLayout] {
   override lazy val peer = new VLayout()
   
   

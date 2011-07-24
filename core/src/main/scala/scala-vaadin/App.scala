@@ -27,7 +27,7 @@ trait App extends VApplication with DelayedInit  {
      *  themselves define a `delayedInit` method.
      *  @param body the initialization code to be stored for later execution
      */
-    override def delayedInit(body: => Unit) {
+    final override def delayedInit(body: => Unit) {
         initCode += (() => body)
     }
 
@@ -35,22 +35,22 @@ trait App extends VApplication with DelayedInit  {
      *  When called, executes all initialization code segments in the order the were
      *  passed to `delayedInit`
      */
-    override def init() : Unit = {
+    final override def init() : Unit = {
         for (proc <- initCode) proc()
     }
     
-    def peer = this
+    final def peer = this
     
-    def mainWindow : MainWindow = { 
+    final def mainWindow : MainWindow = {
       Option(Component.cachedWrapper[MainWindow](getMainWindow)) getOrElse {
         val app=this
         new MainWindow {override lazy val peer = app getMainWindow}
       }
     }
     
-    def mainWindow_= (window: Window):Unit = {setMainWindow(window.peer)}
+    final def mainWindow_= (window: Window):Unit = {setMainWindow(window.peer)}
     
-    def theme: Option[String] = Option(peer.getTheme())
-    def theme_= (t : Option[String]): Unit = peer.setTheme(t getOrElse null)
-    def theme_= (t: String) : Unit = peer.setTheme(t)
+    final def theme: Option[String] = Option(peer.getTheme())
+    final def theme_= (t : Option[String]): Unit = peer.setTheme(t getOrElse null)
+    final def theme_= (t: String) : Unit = peer.setTheme(t)
 }
