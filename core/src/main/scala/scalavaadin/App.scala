@@ -1,4 +1,4 @@
-package scala.vaadin
+package scalavaadin
 
 import com.vaadin.{Application => VApplication}
 import scala.collection.mutable.ListBuffer
@@ -6,7 +6,7 @@ import scala.collection.mutable.ListBuffer
 /** The `App` trait can be used to quickly turn objects 
  *  into Vaadin Application, much like the original Scala App trait [1].
  *  {{{
- *   class MyApp extends scala.vaadin.App {
+ *   class MyApp extends scalavaadin.App {
  *     mainWindow = new Window {add(new Label("Hello World !"))}
  *   }  
  *
@@ -41,12 +41,8 @@ trait App extends VApplication with DelayedInit  {
     
     final def peer = this
     
-    final def mainWindow : MainWindow = {
-      Option(Component.cachedWrapper[MainWindow](getMainWindow)) getOrElse {
-        val app=this
-        new MainWindow {override lazy val peer = app getMainWindow}
-      }
-    }
+    final def mainWindow : MainWindow = TPPRegistry.wrap(getMainWindow)
+
     
     final def mainWindow_= (window: Window):Unit = {setMainWindow(window.peer)}
     

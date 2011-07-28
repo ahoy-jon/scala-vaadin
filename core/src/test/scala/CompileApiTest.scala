@@ -1,5 +1,5 @@
 import com.vaadin.ui.themes.Reindeer
-import scala.vaadin.{HorizontalLayout, Label}
+import scalavaadin.{HorizontalLayout, Label}
 
 
 import org.scalatest.FunSuite

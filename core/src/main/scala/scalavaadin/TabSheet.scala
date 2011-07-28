@@ -1,4 +1,4 @@
-package scala.vaadin
+package scalavaadin
 
 
 final class TabSheet extends ComponentContainer with PeerProxy[com.vaadin.ui.TabSheet]{

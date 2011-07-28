@@ -1,26 +1,12 @@
-package scala.vaadin
+package scalavaadin
 
 
 import com.vaadin.ui.{Window => VWindow}
 
-object Window {
 
-}
+class Window extends Panel with TerminalPeerProxy[VWindow] {
 
-
-class Window(caption: Option[String],content: Option[ComponentContainer]) 
-extends Panel with PeerProxy[VWindow] {
-
-  override lazy val peer = 
-    new VWindow(caption getOrElse "", content map {_.peer} getOrElse null)
-
-    def this() = 
-      this(None, None)
-    def this(caption: String) = 
-      this(Option(caption), None)
-    def this(caption: String, content: ComponentContainer) = 
-      this(Option(caption), Option(content))
-
+     override val peerManifest = implicitly[Manifest[VWindow]]
 
 
     /**
@@ -101,7 +87,8 @@ extends Panel with PeerProxy[VWindow] {
 
 
 
-class MainWindow extends Window(None,None) {
+class MainWindow extends Window {
+
 
   final def name = peer.getName()
 

@@ -1,4 +1,4 @@
-package scala.vaadin
+package scalavaadin
 
 
 

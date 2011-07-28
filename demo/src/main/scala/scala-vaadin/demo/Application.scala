@@ -1,26 +1,31 @@
 package scala.vaadin.demo
 
-import scala.vaadin._
+import scalavaadin._
 import com.vaadin.ui.themes.Reindeer
 
 class AppDemo extends App {
 
   theme = "reindeer"
-  mainWindow = new Window("Vaadin Reindeer Theme")
-  mainWindow.content.wrap[VerticalLayout] map {
-    _.margin = false
+  mainWindow = new Window {
+    caption = "Vaadin Reindeer Theme"
   }
+
+  val verticalLayout:Option[VerticalLayout] = mainWindow.content.wrap
+
   buildMainView()
 
   def buildMainView() {
-    val mainLayout = mainWindow.content.wrap[VerticalLayout]
+    val mainLayout: Option[VerticalLayout] = mainWindow.content.wrap
+
 
     mainLayout map {
+
       v: VerticalLayout =>
         v.sizeFull()
         v.add(topMenu)
         v.add(header)
     }
+
 
     val margin = new CssLayout()
   }
@@ -29,12 +34,9 @@ class AppDemo extends App {
     new Label("topMenu") {
       styleName = Reindeer.LABEL_H2
     }
-
-
   }
 
   def header(): Component = {
-
     new Label("header")
   }
 

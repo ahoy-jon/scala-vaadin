@@ -1,4 +1,4 @@
-package scala.vaadin
+package scalavaadin
 
 import java.lang.Float
 
@@ -14,8 +14,8 @@ object Size {
 object Units {
 
   sealed case class SizeUnit(self: Int)
-  private[vaadin] implicit def convIntToSizeUnit(i: Int): SizeUnit = new SizeUnit(i)
-  private[vaadin] implicit def convSizeUnitToInt(s: SizeUnit): Int = s.self
+  private[scalavaadin] implicit def convIntToSizeUnit(i: Int): SizeUnit = new SizeUnit(i)
+  private[scalavaadin] implicit def convSizeUnitToInt(s: SizeUnit): Int = s.self
 
   import com.vaadin.terminal.Sizeable._
   /**
