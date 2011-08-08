@@ -1,4 +1,5 @@
 */target
 target
 project
-.idea*
+.idea
+.idea_modules
