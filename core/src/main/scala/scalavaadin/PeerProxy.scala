@@ -34,8 +34,8 @@ trait TerminalPeerProxy[A] extends PeerProxy[A] {
 
 }
 
-
-object TPPRegistry {
+import com.weiglewilczek.slf4s._
+object TPPRegistry extends Logging {
 
   import scala.reflect.Manifest
 
@@ -43,7 +43,8 @@ object TPPRegistry {
 
   def put[B, A <: PeerProxy[B]](key: B, item: A) {
     import java.lang.System.identityHashCode
-    println("associate " + identityHashCode(key) + "with" + identityHashCode(item))
+    
+    logger.debug("Associate " + identityHashCode(key) + "with" + identityHashCode(item))
     _map.put(key, new WeakReference(item))
   }
 
@@ -56,7 +57,7 @@ object TPPRegistry {
     val ref: Option[WeakReference[Any]] = Option(_map.get(key))
     val o: Option[Any] = ref map (_.get)
 
-    o map  {o => println("get " + identityHashCode(o) + " : " + o + " for " + identityHashCode(key))}
+    o map  {o => logger.debug("get " + identityHashCode(o) + " : " + o + " for " + identityHashCode(key))}
 
     try {
       o map  (_.asInstanceOf[A])
