@@ -39,7 +39,7 @@ object TPPRegistry extends Logging {
 
   import scala.reflect.Manifest
 
-  private var _map = new WeakHashMap[Any, WeakReference[Any]]
+  private[scalavaadin] var _map = new WeakHashMap[Any, WeakReference[Any]]
 
   def put[B, A <: PeerProxy[B]](key: B, item: A) {
     import java.lang.System.identityHashCode
@@ -49,7 +49,6 @@ object TPPRegistry extends Logging {
   }
 
   def put[B, A <: PeerProxy[B]](item: A) {
-
     put(item.peer, item)
   }
 
@@ -69,10 +68,24 @@ object TPPRegistry extends Logging {
   def wrap[A <: PeerProxy[_]](key: Any)(implicit m: Manifest[A]): A = {
     val o = get[A](key)
     o getOrElse {
-      val a: A = m.erasure.newInstance().asInstanceOf[A]
+      def ni[T](implicit mt: Manifest[T]): A = mt.erasure.newInstance().asInstanceOf[A]
+
+      val a: A = key match {
+        case key:com.vaadin.ui.Table => ni[Table]
+        case key:com.vaadin.ui.Label => ni[Label]
+        case _ =>   m.erasure.newInstance().asInstanceOf[A]
+      }
+
       a.preDefPeer = Option(key)
       put(key,a)
       a
     }
   }
+
+  def wrap(key: com.vaadin.ui.Table): scalavaadin.Table = wrap[scalavaadin.Table](key)
+  def wrap(key: com.vaadin.ui.Label): scalavaadin.Label = wrap[scalavaadin.Label](key)
+  def wrap(key: com.vaadin.ui.Window): scalavaadin.Window = wrap[scalavaadin.Window](key)
+  def wrap(key: com.vaadin.ui.HorizontalLayout): scalavaadin.HorizontalLayout = wrap[scalavaadin.HorizontalLayout](key)
 }
+
+
