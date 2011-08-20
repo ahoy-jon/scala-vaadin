@@ -4,7 +4,9 @@ import java.util.WeakHashMap
 import java.lang.ref.WeakReference
 import java.lang.System._
 
-
+/**
+ * Root of PeerProxy's. Can only be extended by PeerProxys
+ */
 sealed trait AProxy[+A] extends Proxy {
   def peer: A
 
